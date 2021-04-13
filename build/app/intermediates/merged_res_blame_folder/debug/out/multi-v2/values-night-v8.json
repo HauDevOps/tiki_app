@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\TestAndroid\\tiki_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\ProgrammingLanguage\\Flutter\\tiki_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\TestAndroid\\tiki_app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\ProgrammingLanguage\\Flutter\\tiki_app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

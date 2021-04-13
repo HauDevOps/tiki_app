@@ -1,30 +1,25 @@
-import 'dart:convert';
-
-class Products {
-  List<ProductData> data;
+class DealHotEntity {
+  List<Data> data;
   List<Categories> categories;
   List<Tabs> tabs;
   String version;
 
-  Products({this.data, this.categories, this.tabs, this.version});
+  DealHotEntity({this.data, this.categories, this.tabs, this.version});
 
-  Products.fromJson(Map<String, dynamic> json) {
+  DealHotEntity.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      // ignore: deprecated_member_use
-      data = new List<ProductData>();
+      data = new List<Data>();
       json['data'].forEach((v) {
-        data.add(new ProductData.fromJson(v));
+        data.add(new Data.fromJson(v));
       });
     }
     if (json['categories'] != null) {
-      // ignore: deprecated_member_use
       categories = new List<Categories>();
       json['categories'].forEach((v) {
         categories.add(new Categories.fromJson(v));
       });
     }
     if (json['tabs'] != null) {
-      // ignore: deprecated_member_use
       tabs = new List<Tabs>();
       json['tabs'].forEach((v) {
         tabs.add(new Tabs.fromJson(v));
@@ -49,7 +44,7 @@ class Products {
   }
 }
 
-class ProductData {
+class Data {
   int dealId;
   String dealStatus;
   int dealVersion;
@@ -64,7 +59,7 @@ class ProductData {
   Progress progress;
   Product product;
 
-  ProductData(
+  Data(
       {this.dealId,
         this.dealStatus,
         this.dealVersion,
@@ -79,7 +74,7 @@ class ProductData {
         this.progress,
         this.product});
 
-  ProductData.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     dealId = json['deal_id'];
     dealStatus = json['deal_status'];
     dealVersion = json['deal_version'];

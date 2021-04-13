@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:tiki_app/bloc/basic_bloc.dart';
 import 'package:tiki_app/entity/banner_entity.dart';
+import 'package:tiki_app/entity/deal_hot_entity.dart';
 import 'package:tiki_app/entity/quick_link_entity.dart';
 import 'package:tiki_app/pages/home/home_bloc.dart';
 
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     bloc = BlocProvider.of<HomeBloc>(context);
     bloc.getQuickLink();
     bloc.getBanner();
+    bloc.getDealHot();
   }
 
   @override
@@ -28,10 +30,12 @@ class _HomePageState extends State<HomePage> {
       body: CustomScrollView(
         slivers: [
           _appBarWidget(),
-          SliverFixedExtentList(
-            itemExtent: 230,
-            delegate: SliverChildListDelegate([_bannerWidget(bloc)]),
-          ),
+          // SliverFixedExtentList(
+          //   itemExtent: 230,
+          //   delegate: SliverChildListDelegate([_bannerWidget(bloc)]),
+          // ),
+          _dealHotWidget(bloc),
+          // _quickLinkWidget(bloc)
         ],
       ),
     );
@@ -108,6 +112,89 @@ class _HomePageState extends State<HomePage> {
               },
             );
           }).toList(),
+        );
+      },
+    );
+  }
+
+  Widget _dealHotWidget(HomeBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.dealHotStream,
+      builder:
+          (BuildContext context, AsyncSnapshot<List<Data>> snapShot) {
+        if (!snapShot.hasData) {
+          return Center(
+            child: Text('Data not found'),
+          );
+        }
+        return Container(
+          color: Colors.grey,
+          height: 260,
+          child: Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              itemCount: snapShot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius:
+                              BorderRadius.circular(15.0),
+                              child: Image.network(
+                                snapShot.data[index].product
+                                    .thumbnailUrl,
+                                height: 150.0,
+                                width: 150.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Stack(
+                        children: [
+                          Text(
+                            snapShot.data[index].product.price
+                                .toString(),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                        ],
+                      ),
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius:
+                            BorderRadius.circular(5),
+                            child: Text(
+                              'Đã bán ' +
+                                  snapShot.data[index].progress
+                                      .qtyOrdered
+                                      .toString(),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  backgroundColor:
+                                  Colors.red[600]),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         );
       },
     );
