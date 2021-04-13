@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 Type _typeOf<T>() => T;
 
-abstract class BlocBase {
+abstract class BaseBloc {
   void dispose();
 }
 
-class BlocProvider<T extends BlocBase> extends StatefulWidget {
+class BlocProvider<T extends BaseBloc> extends StatefulWidget {
   BlocProvider({
     Key key,
     @required this.child,
@@ -19,14 +19,14 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
   @override
   _BlocProviderState<T> createState() => _BlocProviderState<T>();
 
-  static T of<T extends BlocBase>(BuildContext context) {
+  static T of<T extends BaseBloc>(BuildContext context) {
     _BlocProviderInherited<T> provider =
     context.findAncestorWidgetOfExactType();
     return provider?.bloc;
   }
 }
 
-class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>> {
+class _BlocProviderState<T extends BaseBloc> extends State<BlocProvider<T>> {
   @override
   void dispose() {
     widget.bloc?.dispose();

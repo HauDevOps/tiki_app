@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tiki_app/page/routers/customer_router.dart';
-import 'package:tiki_app/page/routers/router_name.dart';
+import 'package:tiki_app/routers/customer_router.dart';
+import 'package:tiki_app/routers/router_name.dart';
 
 void main() {
   runApp(MyApp());
