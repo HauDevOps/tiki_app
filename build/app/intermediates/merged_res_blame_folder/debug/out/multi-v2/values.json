@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgrammingLanguage\\Flutter\\tiki_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "D:\\TestAndroid\\tiki_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "D:\\ProgrammingLanguage\\Flutter\\tiki_app\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "D:\\TestAndroid\\tiki_app\\android\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
