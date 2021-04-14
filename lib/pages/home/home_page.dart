@@ -6,7 +6,6 @@ import 'package:tiki_app/entity/deal_hot_entity.dart';
 import 'package:tiki_app/entity/quick_link_entity.dart';
 import 'package:tiki_app/pages/home/home_bloc.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,27 +24,36 @@ class _HomePageState extends State<HomePage> {
     bloc.getDealHot();
   }
 
+  Future<Null> refreshList() async {
+    await Future.delayed(Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[300],
-      body: CustomScrollView(
-        slivers: [
-          _appBarWidget(),
-          SliverFixedExtentList(
-            itemExtent: 150,
-            delegate: SliverChildListDelegate([_bannerWidget(bloc)]),
-          ),
-          SliverFixedExtentList(
-            itemExtent: 180,
-            delegate: SliverChildListDelegate([_dealHotWidget(bloc)]),
-          ), SliverFixedExtentList(
-            itemExtent: 240,
-            delegate: SliverChildListDelegate([_quickLinkWidget(bloc)]),
-          ),
-          // _quickLinkWidget(bloc)
-        ],
+      body: RefreshIndicator(
+        onRefresh: refreshList,
+        child: CustomScrollView(
+          slivers: [
+            _appBarWidget(),
+            SliverFixedExtentList(
+              itemExtent: 150,
+              delegate: SliverChildListDelegate([_bannerWidget(bloc)]),
+            ),
+            SliverFixedExtentList(
+              itemExtent: 180,
+              delegate: SliverChildListDelegate([_dealHotWidget(bloc)]),
+            ),
+            SliverFixedExtentList(
+              itemExtent: 240,
+              delegate: SliverChildListDelegate([_quickLinkWidget(bloc)]),
+            ),
+            // _quickLinkWidget(bloc)
+          ],
+        ),
       ),
+      bottomNavigationBar: _bottomWidget(),
     );
   }
 
@@ -66,6 +74,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _quickLinkWidget(HomeBloc bloc) {
     return Container(
+      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
       color: Colors.white,
       child: StreamBuilder(
         stream: bloc.quickLinkStream,
@@ -76,6 +85,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return ListView.builder(
+            padding: const EdgeInsets.all(5),
             itemCount: snapShot.data.data.length,
             itemBuilder: (context, index) {
               return Padding(
@@ -89,12 +99,19 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, i) {
                       return Container(
                         margin: const EdgeInsets.all(7),
-                          child: Column(
-                                children: [
-                                  Image.network(snapShot.data.data[index][i].imageUrl, height: 50, width: 50,),
-                                  Text(snapShot.data.data[index][i].title, textAlign: TextAlign.center,),
-                                ],
-                          ),
+                        child: Column(
+                          children: [
+                            Image.network(
+                              snapShot.data.data[index][i].imageUrl,
+                              height: 40,
+                              width: 40,
+                            ),
+                            Text(
+                              snapShot.data.data[index][i].title,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -107,21 +124,23 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _bottomWidget(){
-    return BottomNavigationBar(items: const <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Trang chủ',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.table_chart),
-        label: 'Danh mục',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.fireplace),
-        label: 'Lướt',
-      ),
-    ],);
+  Widget _bottomWidget() {
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Trang chủ',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.table_chart),
+          label: 'Danh mục',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.fireplace),
+          label: 'Lướt',
+        ),
+      ],
+    );
   }
 
   Widget _bannerWidget(HomeBloc bloc) {
@@ -145,15 +164,14 @@ class _HomePageState extends State<HomePage> {
               builder: (BuildContext context) {
                 return Center(
                     child: ClipRRect(
-                      borderRadius:
-                      BorderRadius.circular(15.0),
-                      child: Image.network(
-                        i.imageUrl,
-                        fit: BoxFit.fill,
-                        width: 300,
-                        height: 140,
-                      ),
-                    ));
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Image.network(
+                    i.imageUrl,
+                    fit: BoxFit.fill,
+                    width: 300,
+                    height: 140,
+                  ),
+                ));
               },
             );
           }).toList(),
@@ -164,9 +182,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _dealHotWidget(HomeBloc bloc) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(50),
       child: Container(
         color: Colors.white,
+        margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
         child: Column(
           children: [
             titleDealHot(),
@@ -190,38 +209,32 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           children: [
                             ClipRRect(
-                              borderRadius:
-                              BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(15.0),
                               child: Image.network(
-                                snapShot.data[index].product
-                                    .thumbnailUrl,
-                                height: 100,
-                                width: 100,
+                                snapShot.data[index].product.thumbnailUrl,
+                                height: 80,
+                                width: 80,
                                 fit: BoxFit.cover,
                               ),
                             ),
                             Text(
-                              snapShot.data[index].product.price
-                                  .toString(),
+                              snapShot.data[index].product.price.toString(),
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.red),
                             ),
                             ClipRRect(
-                              borderRadius:
-                              BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(5),
                               child: Text(
                                 'Đã bán ' +
-                                    snapShot.data[index].progress
-                                        .qtyOrdered
+                                    snapShot.data[index].progress.qtyOrdered
                                         .toString(),
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                    backgroundColor:
-                                    Colors.red[600]),
+                                    backgroundColor: Colors.red[600]),
                               ),
                             ),
                           ],

@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=D:\Mobile\dark\flutter"
-export "FLUTTER_APPLICATION_PATH=D:\TestAndroid\tiki_app"
+export "FLUTTER_ROOT=D:\ProgrammingLanguage\Flutter\flutter"
+export "FLUTTER_APPLICATION_PATH=D:\ProgrammingLanguage\Flutter\tiki_app"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build\ios"
